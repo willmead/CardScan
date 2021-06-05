@@ -1,0 +1,18 @@
+from google.cloud import vision
+
+
+class Scanner:
+
+    def __init__(self):
+        self.client = vision.ImageAnnotatorClient()
+
+    def scan(self, image_received):
+        image = self.load_image(image_received)
+        return self.read_text(image)
+
+    def load_image(self, image):
+        # with open(filename, 'rb') as image_file:
+        return vision.Image(content=image.read())
+
+    def read_text(self, image):
+        return self.client.text_detection(image=image).text_annotations
