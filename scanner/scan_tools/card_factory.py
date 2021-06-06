@@ -10,7 +10,7 @@ class CardFactory:
         name, team = self.get_player(number, year)
         return number, year, name, team
 
-    def remove_prefix(text, prefix):
+    def remove_prefix(self, text, prefix):
         """ Workaround until I update my debian box to Python3.9 """
         if text.startswith(prefix):
             return text[len(prefix):]
