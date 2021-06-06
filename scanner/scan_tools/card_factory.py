@@ -10,10 +10,16 @@ class CardFactory:
         name, team = self.get_player(number, year)
         return number, year, name, team
 
+    def remove_prefix(text, prefix):
+        """ Workaround until I update my debian box to Python3.9 """
+        if text.startswith(prefix):
+            return text[len(prefix):]
+        return text
+
     def get_number(self, items):
         for item in items:
             if "no." in item.lower():
-                return item.strip().lower().removeprefix('no.').strip()
+                return self.remove_prefix(item.strip().lower(), 'no.').strip()
 
     def get_player(self, number, year):
         for player in PLAYERS:

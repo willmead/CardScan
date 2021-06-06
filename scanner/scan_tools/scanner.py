@@ -5,7 +5,6 @@ import os
 class Scanner:
 
     def __init__(self):
-        # self.client = language.LanguageServiceClient.from_service_account_json("/path/to/file.json")
         module_dir = os.path.dirname(__file__)  # get current directory
         file_path = os.path.join(module_dir, 'googlecredentials.json')
         self.client = vision.ImageAnnotatorClient.from_service_account_json(file_path)
