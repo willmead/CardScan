@@ -1,5 +1,3 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en" class="has-aside-left has-aside-mobile-transition has-navbar-fixed-top has-aside-expanded">
 <head>
@@ -9,8 +7,7 @@
   <title>Forms - Admin One HTML - Bulma Admin Dashboard</title>
 
   <!-- Bulma is included -->
-  <link rel="stylesheet" href="{% static 'scanner/css/main.min.css' %}">
-
+  <link rel="stylesheet" href="css/main.min.css">
 
   <!-- Fonts -->
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -226,64 +223,63 @@
       </header>
       <div class="card-content">
         <form method="get">
-
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Card</label>
+              <label class="label">From</label>
             </div>
             <div class="field-body">
               <div class="field">
                 <p class="control is-expanded has-icons-left">
-                  <div class="file">
-                    <label class="file-label" onchange="readCard()">
-                      <input class="file-input" input id="cardInput" type="file" name="image" accept="image/*" capture="environment">
-                      <span class="file-cta">
-                        <span class="file-icon">
-                          <i class="fas fa-upload"></i>
-                        </span>
-                        <span class="file-label">
-                          Choose a file…
-                        </span>
-                      </span>
-                    </label>
-                  </div>
+                  <input class="input" type="text" placeholder="Name">
+                  <span class="icon is-small is-left"><i class="mdi mdi-account"></i></span>
                 </p>
               </div>
-            </div>
-          </div>
-
-          <div class="field is-horizontal">
-            <div class="field-label is-normal">
-              <!-- <label class="label">Test</label> -->
-            </div>
-            <div class="field-body">
               <div class="field">
-                <p id="message" class="has-text-weight-bold">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <input class="input is-success" type="email" placeholder="Email" value="alex@smith.com">
+                  <span class="icon is-small is-left"><i class="mdi mdi-mail"></i></span>
+                  <span class="icon is-small is-right"><i class="mdi mdi-check"></i></span>
                 </p>
               </div>
             </div>
           </div>
-
-          <hr>
-
+          <div class="field is-horizontal">
+            <div class="field-label"></div>
+            <div class="field-body">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button is-static">
+                      +44
+                    </a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input class="input" type="tel" placeholder="Your phone number">
+                  </p>
+                </div>
+                <p class="help">Do not enter the first zero</p>
+              </div>
+            </div>
+          </div>
           <div class="field is-horizontal">
             <div class="field-label is-normal">
-              <label class="label">Type</label>
+              <label class="label">Department</label>
             </div>
             <div class="field-body">
               <div class="field is-narrow">
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select>
-                      <option>Panini Prizm NFL</option>
-                      <option>Pokemon</option>
-                      <option>Magic</option>
+                      <option>Business development</option>
+                      <option>Marketing</option>
+                      <option>Sales</option>
                     </select>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <hr>
           <div class="field is-horizontal">
             <div class="field-label is-normal">
               <label class="label">Subject</label>
@@ -468,68 +464,10 @@
   </div>
 </div>
 
-<script type="text/javascript">
-
-function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-  }
-
-  function readCard() {
-    var messageBox = document.getElementById("message")
-    messageBox.classList.toggle("has-text-danger");
-    messageBox.innerHTML = "Processing Card..."
-    var imageToSend = document.getElementById("cardInput").files[0];
-    const formData = new FormData();
-    formData.append('image', imageToSend);
-
-    let csrftoken = getCookie('csrftoken');
-    var opts = {
-      method: 'POST',
-      body: formData,
-      headers: {'Accept': 'application/json, text/plain, */*',
-                "X-CSRFToken": csrftoken }
-    };
-
-    fetch('/scan', opts)
-    .then((response) => response.json())
-    .then((result_data) => {
-      console.log(result_data);
-      // var table = document.getElementById('results');
-      // var row = table.insertRow(1);
-      // var cell1 = row.insertCell(0);
-      // var cell2 = row.insertCell(1);
-      // var cell3 = row.insertCell(2);
-      // var cell4 = row.insertCell(3);
-      //
-      // cell1.innerHTML = result_data.number;
-      // cell2.innerHTML = result_data.year;
-      // cell3.innerHTML = result_data.name;
-      // cell4.innerHTML = result_data.team;
-      messageBox.innerHTML = "Card Found!"
-      messageBox.classList.toggle("has-text-danger");
-      messageBox.classList.toggle("has-text-primary");
-
-    });
-
-  }
-</script>
-
 <!-- Scripts below are for demo only -->
-<script type="text/javascript" src="{% static 'scanner/js/main.min.js' %}"></script>
+<script type="text/javascript" src="js/main.min.js"></script>
 
 <!-- Icons below are for demo only. Feel free to use any icon pack. Docs: https://bulma.io/documentation/elements/icon/ -->
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/4.9.95/css/materialdesignicons.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </body>
 </html>

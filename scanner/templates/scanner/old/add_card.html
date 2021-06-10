@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardster: Your Cards, Your Way</title>
+
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 50em;
+        font-family: "Helvetica", "Arial", sans-serif;
+        line-height: 1.5;
+        padding: 4em 1em;
+        color: #555;
+      }
+
+      h2 {
+        margin-top: 1em;
+        padding-top: 1em;
+      }
+
+      h1,
+      h2,
+      strong {
+        color: #333;
+      }
+
+      table {
+        border-spacing: 0;
+        border-radius: 15px;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+
+      table thead tr {
+        background-color: rgb(37, 99, 235);
+        color: #ffffff;
+        text-align: left;
+      }
+
+      table th,
+      table td {
+        padding: 12px 15px;
+      }
+
+      table tbody tr {
+        border-bottom: 1px solid #dddddd;
+      }
+
+      table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+
+      table tbody tr: last-of-type {
+        border-bottom: 2px solid #009879;
+      }
+
+      table tbody tr:hover {
+        font-weight: bold;
+        color: rgb(37, 99, 235);
+      }
+
+      .primary {
+        background-color: #009879;
+      }
+
+      .secondary {
+        background-color: rgb(37, 99, 235);
+      }
+
+      .warning {
+        color: #ff0000;
+        font-weight: bold;
+      }
+
+      .success {
+        color: #009879;
+        font-weight: bold;
+      }
+
+      .button {
+        margin: 0 10px 0 0;
+        text-decoration: none;
+        font-weight: bold;
+        color: white;
+        padding: 10px 16px;
+        font-size: 1em;
+        border-radius: .5rem;
+        transition: all .15s cubic-bezier(0.4,0,0.2,1);
+        border: none;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      }
+
+      .button:active {
+        position: relative;
+        top: 1px;
+        right: 1px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Add Card</h1>
+    <label class="button secondary" onchange="readCard()">
+        <input id="cardInput" type="file" name="image" accept="image/*" capture="environment">
+        Scan Card
+    </label>
+    <a class="button primary" href="{% url 'scanner:index' %}">Dashboard</a>
+    <br>
+    <br>
+    <p id="message" class="warning"></p>
+
+
+    <h3>Card Details</h3>
+    <table id="results">
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Year</th>
+          <th>Name</th>
+          <th>Team</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+    <script type="text/javascript">
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+      }
+
+      function readCard() {
+        var messageBox = document.getElementById("message")
+        messageBox.innerHTML = "Processing Card..."
+        var imageToSend = document.getElementById("cardInput").files[0];
+        const formData = new FormData();
+        formData.append('image', imageToSend);
+
+        let csrftoken = getCookie('csrftoken');
+        var opts = {
+          method: 'POST',
+          body: formData,
+          headers: {'Accept': 'application/json, text/plain, */*',
+                    "X-CSRFToken": csrftoken }
+        };
+
+        fetch('/scan', opts)
+        .then((response) => response.json())
+        .then((result_data) => {
+          var table = document.getElementById('results');
+          var row = table.insertRow(1);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
+          var cell3 = row.insertCell(2);
+          var cell4 = row.insertCell(3);
+
+          cell1.innerHTML = result_data.number;
+          cell2.innerHTML = result_data.year;
+          cell3.innerHTML = result_data.name;
+          cell4.innerHTML = result_data.team;
+          messageBox.innerHTML = "Card Found!"
+          messageBox.classList.toggle("warning");
+          messageBox.classList.toggle("success");
+
+        });
+
+      }
+    </script>
+  </body>
+</html>

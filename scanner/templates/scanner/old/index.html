@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardster: Your Cards, Your Way</title>
+
+    <style>
+      body {
+        margin: 0 auto;
+        max-width: 50em;
+        font-family: "Helvetica", "Arial", sans-serif;
+        line-height: 1.5;
+        padding: 4em 1em;
+        color: #555;
+      }
+
+      h2 {
+        margin-top: 1em;
+        padding-top: 1em;
+      }
+
+      h1,
+      h2,
+      strong {
+        color: #333;
+      }
+
+      table {
+        border-spacing: 0;
+        border-radius: 15px;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+
+      table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+      }
+
+      table th,
+      table td {
+        padding: 12px 15px;
+      }
+
+      table tbody tr {
+        border-bottom: 1px solid #dddddd;
+      }
+
+      table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+
+      table tbody tr: last-of-type {
+        border-bottom: 2px solid #009879;
+      }
+
+      table tbody tr:hover {
+        font-weight: bold;
+        color: #009879;
+      }
+
+      .button {
+        text-decoration: none;
+        /* background-color: rgb(37, 99, 235); */
+        font-weight: bold;
+        color: white;
+        padding: 10px 16px;
+        font-size: 1em;
+        border-radius: .5rem;
+        transition: all .15s cubic-bezier(0.4,0,0.2,1);
+        border: none;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        /* background-color: rgb(29,78,216); */
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+      }
+
+      .button:active {
+        position: relative;
+        top: 1px;
+        right: 1px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      }
+
+      .primary {
+        background-color: #009879;
+      }
+
+      .secondary {
+        background-color: rgb(37, 99, 235);
+      }
+
+    </style>
+  </head>
+  <body>
+    <h1>Dashboard</h1>
+
+    <a class="button primary" href="{% url 'scanner:add' %}">Add Card</a>
+
+    <h2>Your Cards</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Number</th>
+          <th>Year</th>
+          <th>Name</th>
+          <th>Team</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for card in cards %}
+        <tr>
+          <td>{{ card.number }}</td>
+          <td>{{ card.year }}</td>
+          <td>{{ card.name }}</td>
+          <td>{{ card.team }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </body>
+</html>
